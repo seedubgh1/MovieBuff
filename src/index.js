@@ -1,5 +1,5 @@
 "use strict";
-var APP_ID = 'amzn1.ask.skill.ce3fe660-d678-43aa-8168-c796d221a3f3undefined';
+var APP_ID = 'amzn1.ask.skill.ce3fe660-d678-43aa-8168-c796d221a3f3';
 
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
 var GAME_LENGTH = 15;  // The number of questions per trivia game.
