@@ -1,8 +1,8 @@
 "use strict";
-var APP_ID = 'amzn1.ask.skill.ce3fe660-d678-43aa-8168-c796d221a3f3';
+var APP_ID = '';
 
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
-var GAME_LENGTH = 15;  // The number of questions per trivia game.
+var GAME_LENGTH = 10;  // The number of questions per trivia game.
 var GAME_STATES = {
     TRIVIA: "_TRIVIAMODE", // Asking trivia questions.
     START: "_STARTMODE", // Entry point, start the game.
@@ -38,7 +38,7 @@ var languageString = {
             "CORRECT_ANSWER_MESSAGE": "The correct answer is %s: %s. ",
             "ANSWER_IS_MESSAGE": "That answer is ",
             //"TELL_QUESTION_MESSAGE": "Question %s. %s ",
-            "TELL_QUESTION_MESSAGE": "%s question. %s ",
+            "TELL_QUESTION_MESSAGE": "%s question, %s ",
             "GAME_OVER_MESSAGE": "You got %s out of %s questions correct. Thank you for playing!",
             "SCORE_IS_MESSAGE": "Your score is %s. "
         }
@@ -143,8 +143,8 @@ var startStateHandlers = Alexa.CreateStateHandler(GAME_STATES.START, {
         var repromptText = this.t("TELL_QUESTION_MESSAGE",firstNextLast("1",GAME_LENGTH.toString()), spokenQuestion);
 
         for (var i = 0; i < ANSWER_COUNT; i++) {
-            //repromptText += (i+1).toString() + ". " + roundAnswers[i] + ". ";
-            repromptText += (i+1).toString() + ". " + roundAnswers[i] + ", ";
+            repromptText += (i+1).toString() + ". " + roundAnswers[i] + ". ";
+            //repromptText += (i+1).toString() + ". " + roundAnswers[i] + ", ";
         }
 
         speechOutput += repromptText;
@@ -286,8 +286,8 @@ function handleUserGuess(userGaveUp) {
         var repromptText = this.t("TELL_QUESTION_MESSAGE",firstNextLast(questionIndexForSpeech.toString(),GAME_LENGTH.toString()), spokenQuestion);
 
         for (var i = 0; i < ANSWER_COUNT; i++) {
-            //repromptText += (i+1).toString() + ". " + roundAnswers[i] + ". "
-            repromptText += (i+1).toString() + ". " + roundAnswers[i] + ", "
+            repromptText += (i+1).toString() + ". " + roundAnswers[i] + ". "
+            //repromptText += (i+1).toString() + ". " + roundAnswers[i] + ", "
         }
 
         speechOutput += userGaveUp ? "" : this.t("ANSWER_IS_MESSAGE");
