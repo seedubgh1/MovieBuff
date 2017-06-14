@@ -1,5 +1,4 @@
-'use strict';
-module.exports = {
+{
   "QUESTIONS_EN_US": [
     {
       "What breed of dog was Marley in the film Marley &amp; Me?": [
@@ -34,7 +33,7 @@ module.exports = {
       ]
     },
     {
-      "Who directed E.T. the Extra-Terrestrial (1982)?": [
+      "Who directed ET, the Extra-Terrestrial (1982)?": [
         "Steven Spielberg",
         "Stanley Kubrick",
         "James Cameron",
