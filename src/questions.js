@@ -1,4 +1,5 @@
-{
+'use strict';
+module.exports = {
   "QUESTIONS_EN_US": [
     {
       "What breed of dog was Marley in the film Marley &amp; Me?": [
@@ -9,11 +10,43 @@
       ]
     },
     {
+      "Which of the following is not the name of a Bond Girl? ": [
+        "Vanessa Kensington",
+        "Pam Bouvier",
+        "Mary Goodnight",
+        "Wai Lin"
+      ]
+    },
+    {
+      "Which of the following was not one of The Magnificent Seven?": [
+        "Clint Eastwood",
+        "Steve McQueen",
+        "Charles Bronson",
+        "Robert Vaughn"
+      ]
+    },
+    {
+      "Which of the following movies was not based on a novel by Stephen King? ": [
+        "The Thing",
+        "Carrie",
+        "Misery",
+        "The Green Mile"
+      ]
+    },
+    {
       "Which movie released in 2016 features Superman and Batman fighting?": [
         "Batman v Superman: Dawn of Justice",
         "Batman v Superman: Superapocalypse",
         "Batman v Superman: Black of Knight",
         "Batman v Superman: Knightfall"
+      ]
+    },
+    {
+      "Daniel Radcliffe became a global star in the film industry due to his performance in which film franchise?": [
+        "Harry Potter",
+        "Ted",
+        "Spy Kids",
+        "Pirates of the Caribbean "
       ]
     },
     {
@@ -73,6 +106,14 @@
       ]
     },
     {
+      "Who played Deputy Marshal Samuel Gerard in the 1993 film The Fugitive?": [
+        "Tommy Lee Jones",
+        "Harrison Ford",
+        "Harvey Keitel",
+        "Martin Landau"
+      ]
+    },
+    {
       "Who played the female lead in the 1933 film King Kong?": [
         "Fay Wray",
         "Jean Harlow",
@@ -113,6 +154,14 @@
       ]
     },
     {
+      "Who directed the 2015 movie The Revenant?": [
+        "Alejandro G. I&ntilde;&aacute;rritu",
+        "Christopher Nolan",
+        "David Fincher",
+        "Wes Anderson"
+      ]
+    },
+    {
       "The Queen song `A Kind Of Magic` is featured in which 1986 film?": [
         "Highlander",
         "Flash Gordon",
@@ -121,11 +170,43 @@
       ]
     },
     {
+      "What was Dorothys surname in The Wizard Of Oz?": [
+        "Gale",
+        "Perkins",
+        "Day",
+        "Parker"
+      ]
+    },
+    {
+      "What was the title of the first Bond movie, released in 1962?": [
+        "Dr. No",
+        "From Russia with Love",
+        "Goldfinger",
+        "Thunderball"
+      ]
+    },
+    {
+      "This movie contains the quote, Houston, we have a problem,": [
+        "Apollo 13",
+        "The Right Stuff",
+        "Capricorn One",
+        "Marooned"
+      ]
+    },
+    {
       "This movie contains the quote, Nobody puts Baby in a corner,": [
         "Dirty Dancing",
         "Three Men and a Baby",
         "Ferris Bueller&#039;s Day Off",
         "Pretty in Pink"
+      ]
+    },
+    {
+      "What is the orange and white bots name in Star Wars, The Force Awakens?": [
+        "BB-8",
+        "BB-3",
+        "AA-A",
+        "R2-D2"
       ]
     },
     {
@@ -145,6 +226,14 @@
       ]
     },
     {
+      "Which of these movies did Jeff Bridges not star in?": [
+        "The Hateful Eight",
+        "Tron: Legacy",
+        "The Giver",
+        "True Grit"
+      ]
+    },
+    {
       "Which movie includes a giant bunny-like spirit who has magic powers including growing trees?": [
         "My Neighbor Totoro",
         "Hop",
@@ -153,11 +242,67 @@
       ]
     },
     {
+      "Who plays Alice in the Resident Evil movies?": [
+        "Milla Jovovich",
+        "Madison Derpe",
+        "Milla Johnson",
+        "Kim Demp"
+      ]
+    },
+    {
+      "What is the oldest Disney film?": [
+        "Snow White and the Seven Dwarfs",
+        "Pinocchio",
+        "Dumbo",
+        "Fantasia"
+      ]
+    },
+    {
+      "Who is the main protagonist in, the 1985 film, Back to the Future?": [
+        "Marty McFly",
+        "Emmett &quot;Doc&quot; Brown",
+        "Biff Tannen",
+        "George McFly"
+      ]
+    },
+    {
+      "In the movie Cast Away the main protagonists best friend while on the island is named": [
+        "Wilson",
+        "Carson",
+        "Jackson",
+        "Willy"
+      ]
+    },
+    {
       "Who in Pulp Fiction says No, they got the metric system there, they wouldnt know what the fuck a Quarter Pounder is,": [
         "Vincent Vega",
         "Jules Winnfield",
         "Jimmie Dimmick",
         "Butch Coolidge"
+      ]
+    },
+    {
+      "In Jurassic World, what is the name of the dinosaur that is a genetic hybrid?": [
+        "Indominus Rex",
+        "Mosasaurus",
+        "Pteranodon",
+        "Tyrannosaurus Rex "
+      ]
+    },
+    {
+      "Which actor plays Obi-Wan Kenobi in Star Wars Episodes I-lll?": [
+        "Ewan McGregor",
+        "Alec Guinness",
+        "Hayden Christensen",
+        "Liam Neeson"
+      ]
+    },
+    {
+      "The 2002 film 28 Days Later is mainly set in which European country?": [
+        "United Kingdom",
+        "France",
+        "Italy",
+        "Germany"
       ]
     },
     {
@@ -214,6 +359,22 @@
         "Bloomstick",
         "Blastbranch",
         "2-Pump Chump"
+      ]
+    },
+    {
+      "At the end of the 2001 film Rat Race, whose concert do the contestants crash?": [
+        "Smash Mouth",
+        "Bowling for Soup",
+        "Sum 41",
+        "Linkin Park"
+      ]
+    },
+    {
+      "Who plays the character of Po in the Kung Fu Panda movies?": [
+        "Jack Black",
+        "Mirana Jonnes",
+        "McConahey Ramses",
+        "Jim Petersson"
       ]
     },
     {
