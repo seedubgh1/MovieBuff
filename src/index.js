@@ -1,5 +1,5 @@
 "use strict";
-var APP_ID = '';
+var APP_ID = process.env.APP_ID;
 
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
 var GAME_LENGTH = 10;  // The number of questions per trivia game.
