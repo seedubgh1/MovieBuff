@@ -54,7 +54,7 @@ var languageString = {
     "en-US": {
         "translation": {
             "QUESTIONS" : questions["QUESTIONS_EN_US"],
-            "GAME_NAME" : "Movie Geek, testing" // Be sure to change this for your skill.
+            "GAME_NAME" : "Movie Geek" // Be sure to change this for your skill.
         }
     },
     "en-GB": {
