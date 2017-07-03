@@ -30,7 +30,7 @@ getToken: function() {
 },// getToken
 
 getQuestion: function (p_categ, p_amt, p_token) {
-  var questionURL = 'https://opentdb.com/api.php?type=multiple&difficulty=medium';
+  var questionURL = 'https://opentdb.com/api.php?type=multiple&difficulty=easy';
 
   if (p_categ) {
     questionURL +=  '&category=' + p_categ.toString();
