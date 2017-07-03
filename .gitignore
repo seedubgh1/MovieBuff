@@ -1,3 +1,6 @@
 movieGeek.zip
 movieBuff.zip
 miscAssets
+.env
+movieGeek.zip.v*
+zipit
