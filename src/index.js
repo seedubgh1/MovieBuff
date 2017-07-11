@@ -1,5 +1,6 @@
 "use strict";
-var APP_ID = '';
+var APP_ID = process.env.APP_ID;
+var helper = require('./QuestionHelper');
 
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
 var GAME_LENGTH = 10;  // The number of questions per trivia game.
@@ -8,7 +9,14 @@ var GAME_STATES = {
     START: "_STARTMODE", // Entry point, start the game.
     HELP: "_HELPMODE" // The user is asking for help.
 };
-var questions = require("./questions");
+//questions = require("./questions");
+var questions = {};
+
+var p_categ = '11'
+var q_set = helper.getQuestion(p_categ,35,null);
+
+q_set = helper.convertQuestion(q_set);
+questions.QUESTIONS_EN_US = q_set; 
 
 /**
  * When editing your questions pay attention to your punctuation. Make sure you use question marks or periods.
@@ -18,7 +26,7 @@ var languageString = {
     "en": {
         "translation": {
             "QUESTIONS" : questions["QUESTIONS_EN_US"],
-            "GAME_NAME" : "Movie Geek", // Be sure to change this for your skill.
+            "GAME_NAME" : "Movie Geek",
             "HELP_MESSAGE": "I will ask you %s multiple choice questions. Respond with the number of the answer. " +
             "For example, say one, two, three, or four. To start a new game at any time, say, start game. ",
             "REPEAT_QUESTION_MESSAGE": "To repeat the last question, say, repeat. ",
@@ -138,24 +146,28 @@ var startStateHandlers = Alexa.CreateStateHandler(GAME_STATES.START, {
         // Select and shuffle the answers for each question
         var roundAnswers = populateRoundAnswers(gameQuestions, 0, correctAnswerIndex, translatedQuestions);
         var currentQuestionIndex = 0;
-        var spokenQuestion = Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0];
+        var spokenQuestion = Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0] + ' ';
         //var repromptText = this.t("TELL_QUESTION_MESSAGE", "1", spokenQuestion);
-        var repromptText = this.t("TELL_QUESTION_MESSAGE",firstNextLast("1",GAME_LENGTH.toString()), spokenQuestion);
+        //var repromptText = this.t("TELL_QUESTION_MESSAGE",firstNextLast("1",GAME_LENGTH.toString()), spokenQuestion);
+        var repromptText = spokenQuestion;
+        speechOutput += this.t("TELL_QUESTION_MESSAGE",firstNextLast("1",GAME_LENGTH.toString()), spokenQuestion);
 
         for (var i = 0; i < ANSWER_COUNT; i++) {
-            repromptText += (i+1).toString() + ". " + roundAnswers[i] + ". ";
             //repromptText += (i+1).toString() + ". " + roundAnswers[i] + ", ";
+            repromptText += (i+1).toString() + ". " + roundAnswers[i] + ". ";
+            speechOutput += (i+1).toString() + ". " + roundAnswers[i] + ". ";
         }
 
-        speechOutput += repromptText;
+        //speechOutput += repromptText;
 
         Object.assign(this.attributes, {
-            "speechOutput": repromptText,
+            "speechOutput": speechOutput,
             "repromptText": repromptText,
             "currentQuestionIndex": currentQuestionIndex,
             "correctAnswerIndex": correctAnswerIndex + 1,
             "questions": gameQuestions,
             "score": 0,
+            "app_id": APP_ID,
             "correctAnswerText": translatedQuestions[gameQuestions[currentQuestionIndex]][Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0]][0]
         });
 
@@ -177,7 +189,8 @@ var triviaStateHandlers = Alexa.CreateStateHandler(GAME_STATES.TRIVIA, {
         this.emitWithState("StartGame", false);
     },
     "AMAZON.RepeatIntent": function () {
-        this.emit(":ask", this.attributes["speechOutput"], this.attributes["repromptText"]);
+        //this.emit(":ask", this.attributes["speechOutput"], this.attributes["repromptText"]);
+        this.emit(":ask", this.attributes["repromptText"], this.attributes["repromptText"]);
     },
     "AMAZON.HelpIntent": function () {
         this.handler.state = GAME_STATES.HELP;
@@ -279,27 +292,33 @@ function handleUserGuess(userGaveUp) {
     } else {
         currentQuestionIndex += 1;
         correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
-        var spokenQuestion = Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0];
+        var spokenQuestion = Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0] + ' ';
         var roundAnswers = populateRoundAnswers.call(this, gameQuestions, currentQuestionIndex, correctAnswerIndex, translatedQuestions);
         var questionIndexForSpeech = currentQuestionIndex + 1;
         //var repromptText = this.t("TELL_QUESTION_MESSAGE", questionIndexForSpeech.toString(), spokenQuestion);
-        var repromptText = this.t("TELL_QUESTION_MESSAGE",firstNextLast(questionIndexForSpeech.toString(),GAME_LENGTH.toString()), spokenQuestion);
+        //var repromptText = this.t("TELL_QUESTION_MESSAGE",firstNextLast(questionIndexForSpeech.toString(),GAME_LENGTH.toString()), spokenQuestion);
+        var repromptText = spokenQuestion;
+        var nxtQuest = this.t("TELL_QUESTION_MESSAGE",firstNextLast(questionIndexForSpeech.toString(),GAME_LENGTH.toString()), spokenQuestion);
 
         for (var i = 0; i < ANSWER_COUNT; i++) {
+            nxtQuest += (i+1).toString() + ". " + roundAnswers[i] + ". "
             repromptText += (i+1).toString() + ". " + roundAnswers[i] + ". "
             //repromptText += (i+1).toString() + ". " + roundAnswers[i] + ", "
         }
 
         speechOutput += userGaveUp ? "" : this.t("ANSWER_IS_MESSAGE");
-        speechOutput += speechOutputAnalysis + this.t("SCORE_IS_MESSAGE", currentScore.toString()) + repromptText;
+        //speechOutput += speechOutputAnalysis + this.t("SCORE_IS_MESSAGE", currentScore.toString()) + repromptText;
+        speechOutput += speechOutputAnalysis + this.t("SCORE_IS_MESSAGE", currentScore.toString()) + nxtQuest;
+
 
         Object.assign(this.attributes, {
-            "speechOutput": repromptText,
+            "speechOutput": speechOutput,
             "repromptText": repromptText,
             "currentQuestionIndex": currentQuestionIndex,
             "correctAnswerIndex": correctAnswerIndex + 1,
             "questions": gameQuestions,
             "score": currentScore,
+            "app_id": APP_ID,
             "correctAnswerText": translatedQuestions[gameQuestions[currentQuestionIndex]][Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0]][0]
         });
 
