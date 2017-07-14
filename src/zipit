@@ -1,0 +1,1 @@
+zip -r ../movieGeek.zip .env index.js package.json QuestionHelper.js node_modules/
