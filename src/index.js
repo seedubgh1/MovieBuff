@@ -1,9 +1,11 @@
 "use strict";
-var APP_ID = process.env.APP_ID;
-var helper = require('./QuestionHelper');
 
+var helper = require('./QuestionHelper');
+require('dotenv').config();
+
+var APP_ID = process.env.APP_ID;
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
-var GAME_LENGTH = 10;  // The number of questions per trivia game.
+var GAME_LENGTH = 7;  // The number of questions per trivia game.
 var GAME_STATES = {
     TRIVIA: "_TRIVIAMODE", // Asking trivia questions.
     START: "_STARTMODE", // Entry point, start the game.
@@ -12,11 +14,12 @@ var GAME_STATES = {
 //questions = require("./questions");
 var questions = {};
 
-var p_categ = '11'
-var q_set = helper.getQuestion(p_categ,35,null);
+var p_categ = '11';// Entertainment:Film
+var p_token = helper.getToken();
+var q_set = helper.getQuestion(p_categ,GAME_LENGTH,p_token);
 
 q_set = helper.convertQuestion(q_set);
-questions.QUESTIONS_EN_US = q_set; 
+questions.QUESTIONS_EN_US = q_set;
 
 /**
  * When editing your questions pay attention to your punctuation. Make sure you use question marks or periods.
@@ -98,6 +101,7 @@ var Alexa = require("alexa-sdk");
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
     alexa.appId = APP_ID;
+    alexa.dynamoDBTableName = 'movieGeekSessionAttr';
     // To enable string internationalization (i18n) features, set a resources object.
     alexa.resources = languageString;
     alexa.registerHandlers(newSessionHandlers, startStateHandlers, triviaStateHandlers, helpStateHandlers);
@@ -118,6 +122,7 @@ var firstNextLast = function(q_num, last){
 
 var newSessionHandlers = {
     "LaunchRequest": function () {
+        this.attributes.theToken = p_token;
         this.handler.state = GAME_STATES.START;
         this.emitWithState("StartGame", true);
     },
