@@ -2,6 +2,6 @@ movieGeek.zip
 movieGeek.zip.v*
 movieBuff.zip
 miscAssets
-.env
+src/.env
 movieGeek.zip.v*
-zipit
+src/zipit
