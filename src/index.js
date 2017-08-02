@@ -3,7 +3,7 @@ var APP_ID = process.env.APP_ID;
 var helper = require('./QuestionHelper');
 
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
-var GAME_LENGTH = 10;  // The number of questions per trivia game.
+var GAME_LENGTH = 7;  // The number of questions per trivia game.
 var GAME_STATES = {
     TRIVIA: "_TRIVIAMODE", // Asking trivia questions.
     START: "_STARTMODE", // Entry point, start the game.
@@ -16,7 +16,7 @@ var p_categ = '11'
 var q_set = helper.getQuestion(p_categ,35,null);
 
 q_set = helper.convertQuestion(q_set);
-questions.QUESTIONS_EN_US = q_set; 
+questions.QUESTIONS_EN_US = q_set;
 
 /**
  * When editing your questions pay attention to your punctuation. Make sure you use question marks or periods.
