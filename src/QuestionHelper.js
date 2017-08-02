@@ -30,7 +30,7 @@ getToken: function() {
 },// getToken
 
 getQuestion: function (p_categ, p_amt, p_token) {
-  var questionURL = 'https://opentdb.com/api.php?type=multiple&difficulty=easy';
+  var questionURL = 'https://opentdb.com/api.php?type=multiple';
 
   if (p_categ) {
     questionURL +=  '&category=' + p_categ.toString();
@@ -38,7 +38,7 @@ getQuestion: function (p_categ, p_amt, p_token) {
 
   if (p_amt) {
     if (p_amt > 50) {
-     p_amt = 50; 
+     p_amt = 50;
     };
     questionURL +=  '&amount=' + p_amt.toString();
   } else {
@@ -128,4 +128,3 @@ convertQuestion: function (q_src,lang) {
 
 }
 };
-
