@@ -13,7 +13,7 @@ var GAME_STATES = {
 var questions = {};
 
 var p_categ = '11'
-var q_set = helper.getQuestion(p_categ,35,null);
+var q_set = helper.getQuestion(p_categ,50,null);
 
 q_set = helper.convertQuestion(q_set);
 questions.QUESTIONS_EN_US = q_set;
@@ -40,7 +40,7 @@ var languageString = {
             "START_UNHANDLED": "Say start to start a new game.",
             "NEW_GAME_MESSAGE": "Welcome to %s. ",
             "WELCOME_MESSAGE": "I will ask you %s questions, try to get as many right as you can. " +
-            "Just say the number of the answer. Let\'s begin. ",
+            "Just say the number of the answer. Ready? Let\'s begin. ",
             "ANSWER_CORRECT_MESSAGE": "correct. ",
             "ANSWER_WRONG_MESSAGE": "wrong. ",
             "CORRECT_ANSWER_MESSAGE": "The correct answer is %s: %s. ",
@@ -140,6 +140,7 @@ var startStateHandlers = Alexa.CreateStateHandler(GAME_STATES.START, {
         var speechOutput = newGame ? this.t("NEW_GAME_MESSAGE", this.t("GAME_NAME")) + this.t("WELCOME_MESSAGE", GAME_LENGTH.toString()) : "";
         // Select GAME_LENGTH questions for the game
         var translatedQuestions = this.t("QUESTIONS");
+        console.log(translatedQuestions);
         var gameQuestions = populateGameQuestions(translatedQuestions);
         // Generate a random index for the correct answer, from 0 to 3
         var correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
