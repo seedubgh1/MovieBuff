@@ -16,6 +16,7 @@ var p_categ = '11'
 var q_set = helper.getQuestion(p_categ,50,null);
 
 q_set = helper.convertQuestion(q_set);
+console.log('initial q_set: ',q_set);
 questions.QUESTIONS_EN_US = q_set;
 
 /**

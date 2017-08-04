@@ -72,6 +72,8 @@ convertQuestion: function (q_src,lang) {
 
   function cr_js(prop, val) {
     var jsonStr = '{"' + prop + '":' + val + '}';
+console.log('jsonStr: ',jsonStr);
+console.log('JSON.parse(jsonStr): ',JSON.parse(jsonStr));
     return JSON.parse(jsonStr);
   };
 
@@ -98,18 +100,25 @@ convertQuestion: function (q_src,lang) {
 
     answers = [];
     questions[i].question = Base64.decode(questions[i].question);
-    if (questions[i].question.indexOf('need for speed') == -1) {
-      questions[i].question = questions[i].question.replace(new RegExp('&quot;', 'g'), "");
-      questions[i].question = questions[i].question.replace(new RegExp('&#039;', 'g'), "");
-      questions[i].question = questions[i].question.replace(new RegExp(':', 'g'), ",");
-      questions[i].question = questions[i].question.replace(new RegExp('E\.T\.', 'g'), "ET,");
-      questions[i].question = questions[i].question.replace(new RegExp('"', 'g'), "'");
-      questions[i].question = replLastChar(questions[i].question,'.',',');
-      questions[i].question = replLastChar(questions[i].question,".'",',');
-      questions[i].question = replLastChar(questions[i].question,"...",', ');
+    console.log('decoded question: ',questions[i].question);
+    // questions[i].question = questions[i].question.replace(new RegExp("'", 'g'), '"');
+    // console.log('dequoted question: ',questions[i].question);
+
+    // if (questions[i].question.indexOf('need for speed') == -1) {
+      // questions[i].question = questions[i].question.replace(new RegExp('&quot;', 'g'), "");
+      // questions[i].question = questions[i].question.replace(new RegExp('&#039;', 'g'), "");
+      // questions[i].question = questions[i].question.replace(new RegExp(':', 'g'), ",");
+      // questions[i].question = questions[i].question.replace(new RegExp('E\.T\.', 'g'), "ET,");
+      // questions[i].question = questions[i].question.replace(new RegExp('"', 'g'), "'");
+      // questions[i].question = replLastChar(questions[i].question,'.',',');
+      // questions[i].question = replLastChar(questions[i].question,".'",',');
+      // questions[i].question = replLastChar(questions[i].question,"...",', ');
 
 //    if (!lang) {
-      alexa_q = cr_js(questions[i].question,'17');
+      // alexa_q = cr_js(questions[i].question,'17');
+      alexa_q = {};
+      alexa_q[questions[i].question] = [];
+      console.log('init alexa_q: ',alexa_q);
       answers = answers.concat(Base64.decode(questions[i].correct_answer));
       answers = answers.concat(questions[i].incorrect_answers.map((answer) => Base64.decode(answer)));
     // } else {
@@ -122,10 +131,10 @@ convertQuestion: function (q_src,lang) {
     //   };
     // };
 
-    alexa_q[Object.keys(alexa_q)[0]] = answers;
-    //console.log('obj_keys: ',Object.keys(alexa_q)[0]);
+    alexa_q[questions[i].question] = answers;
+    console.log('alexa_q: ',alexa_q);
     q_set.push(alexa_q);
-    };
+    // }; need for speed
   };
 
   return q_set;
