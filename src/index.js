@@ -14,7 +14,7 @@ var GAME_STATES = {
 var questions = {};
 
 var p_categ = '11'
-var q_set = helper.getQuestion(p_categ,GAME_LENGTH,null);
+var q_set = helper.getQuestion(p_categ,(GAME_LENGTH * 4),null);
 
 q_set = helper.convertQuestion(q_set);
 questions["QUESTIONS_EN_US"]= q_set;
