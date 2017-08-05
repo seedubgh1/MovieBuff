@@ -1,4 +1,5 @@
 "use strict";
+require('dotenv').config();
 var APP_ID = process.env.APP_ID;
 var helper = require('./QuestionHelper');
 
@@ -13,11 +14,11 @@ var GAME_STATES = {
 var questions = {};
 
 var p_categ = '11'
-var q_set = helper.getQuestion(p_categ,50,null);
+var q_set = helper.getQuestion(p_categ,GAME_LENGTH,null);
 
 q_set = helper.convertQuestion(q_set);
-console.log('initial q_set: ',q_set);
-questions.QUESTIONS_EN_US = q_set;
+questions["QUESTIONS_EN_US"]= q_set;
+// console.log('questions: ',questions);
 
 /**
  * When editing your questions pay attention to your punctuation. Make sure you use question marks or periods.
@@ -99,6 +100,7 @@ var Alexa = require("alexa-sdk");
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
     alexa.appId = APP_ID;
+console.log('appId: ',alexa.appId);
     // To enable string internationalization (i18n) features, set a resources object.
     alexa.resources = languageString;
     alexa.registerHandlers(newSessionHandlers, startStateHandlers, triviaStateHandlers, helpStateHandlers);
@@ -140,8 +142,9 @@ var startStateHandlers = Alexa.CreateStateHandler(GAME_STATES.START, {
     "StartGame": function (newGame) {
         var speechOutput = newGame ? this.t("NEW_GAME_MESSAGE", this.t("GAME_NAME")) + this.t("WELCOME_MESSAGE", GAME_LENGTH.toString()) : "";
         // Select GAME_LENGTH questions for the game
-        var translatedQuestions = this.t("QUESTIONS");
-        console.log(translatedQuestions);
+        // var translatedQuestions = this.t("QUESTIONS");
+        var translatedQuestions = questions["QUESTIONS_EN_US"];
+        console.log('translatedQuestions: ',translatedQuestions);
         var gameQuestions = populateGameQuestions(translatedQuestions);
         // Generate a random index for the correct answer, from 0 to 3
         var correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
@@ -272,7 +275,8 @@ function handleUserGuess(userGaveUp) {
     var currentScore = parseInt(this.attributes.score);
     var currentQuestionIndex = parseInt(this.attributes.currentQuestionIndex);
     var correctAnswerText = this.attributes.correctAnswerText;
-    var translatedQuestions = this.t("QUESTIONS");
+    // var translatedQuestions = this.t("QUESTIONS");
+    var translatedQuestions = questions["QUESTIONS_EN_US"];
 
     if (answerSlotValid && parseInt(this.event.request.intent.slots.Answer.value) == this.attributes["correctAnswerIndex"]) {
         currentScore++;
@@ -323,7 +327,7 @@ function handleUserGuess(userGaveUp) {
             "app_id": APP_ID,
             "correctAnswerText": translatedQuestions[gameQuestions[currentQuestionIndex]][Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0]][0]
         });
-
+console.log(speechOutput);
         this.emit(":askWithCard", speechOutput, repromptText, this.t("GAME_NAME"), repromptText);
     }
 }
