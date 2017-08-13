@@ -100,7 +100,6 @@ var Alexa = require("alexa-sdk");
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
     alexa.appId = APP_ID;
-console.log('appId: ',alexa.appId);
     // To enable string internationalization (i18n) features, set a resources object.
     alexa.resources = languageString;
     alexa.registerHandlers(newSessionHandlers, startStateHandlers, triviaStateHandlers, helpStateHandlers);
@@ -144,7 +143,6 @@ var startStateHandlers = Alexa.CreateStateHandler(GAME_STATES.START, {
         // Select GAME_LENGTH questions for the game
         // var translatedQuestions = this.t("QUESTIONS");
         var translatedQuestions = questions["QUESTIONS_EN_US"];
-        console.log('translatedQuestions: ',translatedQuestions);
         var gameQuestions = populateGameQuestions(translatedQuestions);
         // Generate a random index for the correct answer, from 0 to 3
         var correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
@@ -327,7 +325,7 @@ function handleUserGuess(userGaveUp) {
             "app_id": APP_ID,
             "correctAnswerText": translatedQuestions[gameQuestions[currentQuestionIndex]][Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0]][0]
         });
-console.log(speechOutput);
+// console.log(speechOutput);
         this.emit(":askWithCard", speechOutput, repromptText, this.t("GAME_NAME"), repromptText);
     }
 }
