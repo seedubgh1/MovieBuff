@@ -8,4 +8,6 @@ movieGeek.zip.v*
 src/zipit
 func_list.txt
 publish_movieGeek
+src/.env_movieGeek
+src/.env_geekTester
 publish_geekTester
