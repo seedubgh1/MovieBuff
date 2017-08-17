@@ -7,3 +7,7 @@ src/idx_log
 movieGeek.zip.v*
 src/zipit
 func_list.txt
+src/.env_movieGeek
+src/.env_geekTester
+publish_geekTester
+publish_movieGeek
