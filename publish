@@ -1,1 +1,3 @@
-aws lambda update-function-code --function-name movieGeek --zip-file fileb://movieGeek.zip
+cd ./src && ./zipit
+echo 'aws lambda update-function-code --function-name geekTester --zip-file fileb://movieGeek.zip'
+cd .. && aws lambda update-function-code --function-name geekTester --zip-file fileb://movieGeek.zip

@@ -2,6 +2,7 @@
 require('dotenv').config();
 var APP_ID = process.env.APP_ID;
 var helper = require('./QuestionHelper');
+var SESSION_ATTRIB_TABLE = "movieGeekAttr";
 
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
 var GAME_LENGTH = 7;  // The number of questions per trivia game.
@@ -29,6 +30,7 @@ var languageString = {
         "translation": {
             "QUESTIONS" : questions["QUESTIONS_EN_US"],
             "GAME_NAME" : "Movie Geek",
+            "TRIVIA_SUBJECT" : "Movies",
             "HELP_MESSAGE": "I will ask you %s multiple choice questions. Respond with the number of the answer. " +
             "For example, say one, two, three, or four. To start a new game at any time, say, start game. ",
             "REPEAT_QUESTION_MESSAGE": "To repeat the last question, say, repeat. ",
@@ -41,8 +43,14 @@ var languageString = {
             "HELP_UNHANDLED": "Say yes to continue, or no to end the game.",
             "START_UNHANDLED": "Say start to start a new game.",
             "NEW_GAME_MESSAGE": "Welcome to %s. ",
-            "WELCOME_MESSAGE": "I will ask you %s questions, try to get as many right as you can. " +
+            "WELCOME_MESSAGE": "Here's how the game works. I will ask you %s questions. Try to get as many right as you can. " +
             "Just say the number of the answer. Ready? Let\'s begin. ",
+            "READY_BEGIN": "Ready? Let\'s begin.",
+            "RETURN_WELCOME_MESSAGE": "Welcome back to %s.  Since you've played before, ",
+            "SHORTCUT_INSTRUCTIONS": ["Let\'s get to it",
+                                      "I'll assume you know how to play",
+                                      "We'll dive right in",
+                                      ""],
             "ANSWER_CORRECT_MESSAGE": "correct. ",
             "ANSWER_WRONG_MESSAGE": "wrong. ",
             "CORRECT_ANSWER_MESSAGE": "The correct answer is %s: %s. ",
@@ -101,6 +109,7 @@ exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
     alexa.appId = APP_ID;
     // To enable string internationalization (i18n) features, set a resources object.
+    alexa.dynamoDBTableName = SESSION_ATTRIB_TABLE;
     alexa.resources = languageString;
     alexa.registerHandlers(newSessionHandlers, startStateHandlers, triviaStateHandlers, helpStateHandlers);
     alexa.execute();
@@ -139,6 +148,12 @@ var newSessionHandlers = {
 
 var startStateHandlers = Alexa.CreateStateHandler(GAME_STATES.START, {
     "StartGame": function (newGame) {
+        if (this.attributes.userId) {
+          console.log('Return user', this.attributes.userId)
+        } else {
+          console.log('New User')
+          this.attributes.userId = this.event.session.user.userId;
+        }
         var speechOutput = newGame ? this.t("NEW_GAME_MESSAGE", this.t("GAME_NAME")) + this.t("WELCOME_MESSAGE", GAME_LENGTH.toString()) : "";
         // Select GAME_LENGTH questions for the game
         // var translatedQuestions = this.t("QUESTIONS");
@@ -173,7 +188,6 @@ var startStateHandlers = Alexa.CreateStateHandler(GAME_STATES.START, {
             "app_id": APP_ID,
             "correctAnswerText": translatedQuestions[gameQuestions[currentQuestionIndex]][Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0]][0]
         });
-
         // Set the current state to trivia mode. The skill will now use handlers defined in triviaStateHandlers
         this.handler.state = GAME_STATES.TRIVIA;
         this.emit(":askWithCard", speechOutput, repromptText, this.t("GAME_NAME"), repromptText);
@@ -182,6 +196,7 @@ var startStateHandlers = Alexa.CreateStateHandler(GAME_STATES.START, {
 
 var triviaStateHandlers = Alexa.CreateStateHandler(GAME_STATES.TRIVIA, {
     "AnswerIntent": function () {
+        console.log('Attribs keys: ',Object.keys(this.attributes).length);
         handleUserGuess.call(this, false);
     },
     "DontKnowIntent": function () {
@@ -292,6 +307,15 @@ function handleUserGuess(userGaveUp) {
         speechOutput = userGaveUp ? "" : this.t("ANSWER_IS_MESSAGE");
         speechOutput += speechOutputAnalysis + this.t("GAME_OVER_MESSAGE", currentScore.toString(), GAME_LENGTH.toString());
 
+        this.attributes = {};
+        this.event.session.attributes = {};
+
+        // this.attributes.userId = this.event.session.user.userId;
+        Object.assign(this.attributes, {
+            "userId": this.event.session.user.userId
+        });
+console.log("we are done!");
+console.log('final attribs: ',this.attributes);
         this.emit(":tell", speechOutput)
     } else {
         currentQuestionIndex += 1;
